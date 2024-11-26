@@ -1,0 +1,124 @@
+.container {
+    display: flex;
+}
+.config {
+    display: none;
+    position: absolute;
+    z-index: 1010;
+    width: 225px;
+    height: 500px;
+    padding: 0 10px;
+    top: 50px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 1px solid #d4d4d4;
+    background-color: #ffffff;
+}
+.config_win {
+    user-select: none;
+    cursor: move;
+    position: sticky;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ebebeb;
+    margin: 0 -10px;
+    padding: 0 10px;
+}
+#component_title {
+    user-select: none;
+    text-align: left;
+    cursor: move;
+}
+.min {
+    cursor: pointer;
+}
+#component {
+    display: none;
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    z-index: 1010;
+    width: 120px;
+    background-color: #ffffff;
+    left: 0;
+    top: 50px;
+}
+.config::-webkit-scrollbar {
+    width: 5px;
+}
+.config::-webkit-scrollbar-thumb {
+    background-color: #7a6b94;
+    border-radius: 10px;
+  }
+.workplace {
+    width: 100%;
+}
+.workplace_content {
+    border: 1px solid #d4d4d4;
+}
+#c_btn,
+#c_text,
+#c_input,
+#c_img,
+#c_div {
+    user-select: none;
+}
+#c_btn:hover,
+#c_text:hover,
+#c_input:hover,
+#c_img:hover,
+#c_div:hover {
+    background-color: #ebebeb;
+}
+
+#x_content,#y_content,#height_content,#width_content {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    width: 50%;
+}
+
+#title_content,#fsize_content,#color_content,#fts_content,
+#bds_content,#bdw_content,#bdc_content,#bdr_content,
+#ols_content,#olw_content,#olc_content,#bg_content,
+#hint_content,#value_content,#path_content,#hs_content,
+#vs_content,#padding_content,#margin_content,
+#zindex_content,#arrange_content,#ftcm_content,
+#inputtype_content {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+#title,#fsize,#bdw,#bdr,#olw,#zindex,
+#padding,#margin,#value,#hint,#path {
+    width: 110px;
+    margin: 5px 0 5px 5px;
+}
+#color,#fts,#bdc,#bds,#ols,#olc,
+#bg,#hs,#vs,#arrange,#ftcm,
+#inputtype {
+    width: 118px;
+    margin: 5px 0 5px 5px;
+}
+
+.box {
+    display: flex;
+    align-items: center;
+}
+
+#x,#y,#height,#width {
+    width: 40px;
+    margin: 5px 0 5px 5px;
+}
+
+.flex_box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    background-color: #ebebeb;
+    padding: 0 5px;
+}

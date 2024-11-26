@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>组件设计器</title>
+</head>
+<body style="overflow: hidden;margin: 0;">
+    <div class="container">
+        <div class="component" id="component">
+            <div class="flex_box" id="component_title">
+                <div>组件</div>
+                <div class="min" onclick="setMin('component','none')">×</div>
+            </div>
+            <div id="c_btn" data-type="button" data-name="按钮">按钮</div>
+            <div id="c_text" data-type="text" data-name="文本">文本</div>
+            <div id="c_input" data-type="input" data-name="">输入框</div>
+            <div id="c_img" data-type="img" data-name="">图片</div>
+            <div id="c_div" data-type="div" data-name="">DIV</div>
+        </div>
+        <div class="workplace">
+            <button onclick="setMin('component','unset')">组件框</button>
+            <button onclick="setMin('config','unset')">属性框</button>
+            <button onclick="handleExport('html')">导出HTML</button>
+            <button onclick="handleExport('vue')">导出VUE</button>
+            <button onclick="handleExport('com')">导出选择的组件</button>
+            <button onclick="handleClear()">清空画布</button>
+            <button onclick="handleCopy()">复制当前组件</button>
+            <button onclick="handleRemove()">删除当前组件</button>
+            <div class="workplace_content" id="workplace"></div>
+        </div>
+        <div class="config" id="config">
+            <div class="config_win" id="config_win">
+                <div>属性</div>
+                <div class="min" onclick="setMin('config','none')">×</div>
+            </div>
+            <div class="box">
+                <div id="x_content">
+                    <div>X轴</div>
+                    <input id="x" type="number" onchange="setVal('x')">
+                </div>
+                <div id="y_content">
+                    <div>Y轴</div>
+                    <input id="y" type="number" onchange="setVal('y')">
+                </div>
+            </div>
+            <div class="box">
+                <div id="height_content">
+                    <div>高</div>
+                    <input id="height" type="number" onchange="setVal('height')">
+                </div>
+                <div id="width_content">
+                    <div>宽</div>
+                    <input id="width" type="number" onchange="setVal('width')">
+                </div>
+            </div>
+            <div id="bds_content">
+                <div>边框样式</div>
+                <select id="bds" onchange="setVal('bds')">
+                    <option value=""></option>
+                    <option value="dashed">线段</option>
+                    <option value="dotted">点</option>
+                    <option value="double">双线</option>
+                    <option value="solid">直线</option>
+                </select>
+            </div>
+            <div id="bdw_content">
+                <div>边框宽度</div>
+                <input id="bdw" type="number" onchange="setVal('bdw')">
+            </div>
+            <div id="bdc_content">
+                <div>边框颜色</div>
+                <input id="bdc" type="color" onchange="setVal('bdc')">
+            </div>
+            <div id="bdr_content">
+                <div>边框圆角</div>
+                <input id="bdr" type="number" onchange="setVal('bdr')">
+            </div>
+            <div id="ols_content">
+                <div>轮廓样式</div>
+                <select id="ols" onchange="setVal('ols')">
+                    <option value=""></option>
+                    <option value="dashed">线段</option>
+                    <option value="dotted">点</option>
+                    <option value="double">双线</option>
+                    <option value="solid">直线</option>
+                </select>
+            </div>
+            <div id="olw_content">
+                <div>轮廓宽度</div>
+                <input id="olw" type="number" onchange="setVal('olw')">
+            </div>
+            <div id="olc_content">
+                <div>轮廓颜色</div>
+                <input id="olc" type="color" onchange="setVal('olc')">
+            </div>
+            <div id="bg_content">
+                <div>背景颜色</div>
+                <input id="bg" type="color" onchange="setVal('bg')">
+            </div>
+            <div id="padding_content">
+                <div>内边距</div>
+                <input id="padding" type="number" onchange="setVal('padding')">
+            </div>
+            <div id="margin_content">
+                <div>外边距</div>
+                <input id="margin" type="number" onchange="setVal('margin')">
+            </div>
+            <div id="zindex_content">
+                <div>层级</div>
+                <input id="zindex" type="number" max="1000" onchange="setVal('zindex')">
+            </div>
+            <div id="title_content">
+                <div>文本标题</div>
+                <input id="title" type="text" onchange="setVal('title')">
+            </div>
+            <div id="fsize_content">
+                <div>文本尺寸</div>
+                <input id="fsize" type="number" onchange="setVal('fsize')">
+            </div>
+            <div id="color_content">
+                <div>文本颜色</div>
+                <input id="color" type="color" onchange="setVal('color')">
+            </div>
+            <div id="fts_content">
+                <div>文本样式</div>
+                <select id="fts" onchange="setVal('fts')">
+                    <option value=""></option>
+                    <option value="lighter">细体</option>
+                    <option value="bolder">粗体</option>
+                    <option value="normal">常体</option>
+                </select>
+            </div>
+            <div id="ftcm_content">
+                <div>文本排列</div>
+                <select id="ftcm" onchange="setVal('ftcm')">
+                    <option value=""></option>
+                    <option value="left">居左</option>
+                    <option value="center">居中</option>
+                    <option value="right">居右</option>
+                </select>
+            </div>
+            <div id="hint_content">
+                <div>输入提示</div>
+                <input id="hint" type="text" onchange="setVal('hint')">
+            </div>
+            <div id="inputtype_content">
+                <div>输入类型</div>
+                <select id="inputtype" onchange="setVal('inputtype')">
+                    <option value=""></option>
+                    <option value="text">文本</option>
+                    <option value="number">数字</option>
+                    <option value="password">密码</option>
+                </select>
+            </div>
+            <div id="value_content">
+                <div>绑定值</div>
+                <input id="value" type="text" onchange="setVal('value')">
+            </div>
+            <div id="path_content">
+                <div>图片路径</div>
+                <input id="path" type="text" onchange="setVal('path')">
+            </div>
+            <div id="hs_content">
+                <div>水平布局</div>
+                <select id="hs" onchange="setVal('hs')">
+                    <option value=""></option>
+                    <option value="space-around">平均分布</option>
+                    <option value="space-between">两端对齐</option>
+                    <option value="left">居左</option>
+                    <option value="center">居中</option>
+                    <option value="right">居右</option>
+                </select>
+            </div>
+            <div id="vs_content">
+                <div>垂直布局</div>
+                <select id="vs" onchange="setVal('vs')">
+                    <option value=""></option>
+                    <option value="start">居上</option>
+                    <option value="center">居中</option>
+                    <option value="end">居下</option>
+                </select>
+            </div>
+            <div id="arrange_content">
+                <div>排列方式</div>
+                <select id="arrange" onchange="setVal('arrange')">
+                    <option value=""></option>
+                    <option value="row">横向排列</option>
+                    <option value="column">纵向排列</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
