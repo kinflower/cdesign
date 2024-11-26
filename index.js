@@ -242,6 +242,18 @@ function createNode(node) { // 节点创建
 function handleCopy() { // 节点复制
     if (current == {}) return
     let cloneNode = current.cloneNode(true)
+    cloneNode.id = cloneNode.nodeName + '_' + new Date().getTime()
+    for(let index in cloneNode.children) { // 更新子节点id
+        if(cloneNode.children[index].id) {
+            setTimeout(() => {
+                cloneNode.children[index].id = cloneNode.children[index].nodeName + '_' + new Date().getTime()
+            },10)
+        }
+    }
+    if(cloneNode.nodeName != 'DIV') { // 非块需绝对布局
+        cloneNode.style.position = 'absolute'
+        cloneNode.style.top = '24px'
+    }
     getNode('workplace').appendChild(cloneNode)
     handleNode(cloneNode, 'copy')
     current == {}
