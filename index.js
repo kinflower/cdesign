@@ -38,12 +38,17 @@ function getval(target) { // 获取组件配置信息
             { id: "inputtype_content", display: 'flex' }
         ]
     }
+    
+    if(current.nodeName) {
+        current.classList.remove('active')
+    }
     current = target
+    target.classList.add('active')
     switch (target.dataset.type) { // 控制是否显示配置项
         case 'button':
         case 'text':
             init_config.com.forEach(item => {
-                if (['value_content','hs_content','inputtype_content','hint_content','vs_content','path_content','arrange_content'].includes(item.id)) {
+                if (['value_content', 'hs_content', 'inputtype_content', 'hint_content', 'vs_content', 'path_content', 'arrange_content'].includes(item.id)) {
                     item.display = 'none'
                 } else {
                     item.display = 'flex'
@@ -52,34 +57,37 @@ function getval(target) { // 获取组件配置信息
             break
         case 'input':
             init_config.com.forEach(item => {
-                if (['title_content','path_content','ftcm_content','hs_content','vs_content','arrange_content'].includes(item.id)) {
+                if (['title_content', 'path_content', 'ftcm_content', 'hs_content', 'vs_content', 'arrange_content'].includes(item.id)) {
                     item.display = 'none'
                 } else {
                     item.display = 'flex'
                 }
             })
             getNode('hint').value = target.placeholder
+            getNode('hint').onchange = (e) => {current.placeholder = e.target.value}
+            getNode('inputtype').value = target.placeholder
+            getNode('inputtype').onchange = (e) => {current.type = e.target.value}
             break
         case 'img':
             init_config.com.forEach(item => {
-                if (['title_content','color_content','hs_content','ftcm_content','value_content','fsize_content','fts_content',
-                    'hint_content','vs_content','arrange_content','inputtype_content'].includes(item.id)) {
+                if (['title_content', 'color_content', 'hs_content', 'ftcm_content', 'value_content', 'fsize_content', 'fts_content',
+                    'hint_content', 'vs_content', 'arrange_content', 'inputtype_content'].includes(item.id)) {
                     item.display = 'none'
                 } else {
                     item.display = 'flex'
                 }
             })
             getNode('path').value = target.src
+            getNode('path').onchange = (e) => {current.src = e.target.value}
             break
         case 'div':
             init_config.com.forEach(item => {
-                if (['title_content','color_content','value_content','fts_content','fsize_content','hint_content','inputtype_content','path_content'].includes(item.id)) {
+                if (['title_content', 'color_content', 'value_content', 'fts_content', 'fsize_content', 'hint_content', 'inputtype_content', 'path_content'].includes(item.id)) {
                     item.display = 'none'
                 } else {
                     item.display = 'flex'
                 }
             })
-            getNode('path').value = target.src
             break
     }
 
@@ -89,69 +97,69 @@ function getval(target) { // 获取组件配置信息
 
     // 配置项值写入
     getNode('title').value = target.innerHTML
+    getNode('title').onchange = (e) => {current.innerHTML = e.target.value}
     getNode('value').value = target.value
+    getNode('value').onchange = (e) => {current.value = e.target.value}
     getNode('bds').value = target.style.borderStyle
+    getNode('bds').onchange = (e) => {current.style.borderStyle = e.target.value}
     getNode('ols').value = target.style.outlineStyle
+    getNode('ols').onchange = (e) => {current.style.outlineStyle = e.target.value}
     getNode('fts').value = target.style.fontWeight
+    getNode('fts').onchange = (e) => {current.style.fontWeight = e.target.value}
     getNode('ftcm').value = target.style.textAlign
+    getNode('ftcm').onchange = (e) => {current.style.textAlign = e.target.value}
     getNode('zindex').value = target.style.zIndex
-    getNode('height').value = target.style.height ? parseInt(target.style.height) : target.style.height
-    getNode('width').value = target.style.width ? parseInt(target.style.width) : target.style.width
-    getNode('padding').value = target.style.padding ? parseInt(target.style.padding) : target.style.padding
-    getNode('margin').value = target.style.margin ? parseInt(target.style.margin) : target.style.margin
-    getNode('x').value = target.style.left ? parseInt(target.style.left) : target.style.left
-    getNode('y').value = target.style.top ? parseInt(target.style.top) : target.style.top
-    getNode('fsize').value = target.style.fontSize ? parseInt(target.style.fontSize) : target.style.fontSize
-    getNode('color').value = target.style.color ? rgbStringToHex(target.style.color) : '#000000'
-    getNode('bg').value = target.style.background ? rgbStringToHex(target.style.background) : '#000000'
-    getNode('bdw').value = target.style.borderWidth ? parseInt(target.style.borderWidth) : target.style.borderWidth
-    getNode('bdc').value = target.style.borderColor ? rgbStringToHex(target.style.borderColor) : '#000000'
-    getNode('bdr').value = target.style.borderRadius ? parseInt(target.style.borderRadius) : target.style.borderRadius
-    getNode('olw').value = target.style.outlineWidth ? parseInt(target.style.outlineWidth) : target.style.outlineWidth
-    getNode('olc').value = target.style.outlineColor ? rgbStringToHex(target.style.outlineColor) : '#000000'
-    getNode('hs').value = target.style.justifyContent
-    getNode('vs').value = target.style.alignItems
-    getNode('arrange').value = target.style.flexDirection
-}
-
-function setVal(id) { // 更新组件配置信息
-    var config_data = {
-        title: () => { current.innerHTML = getNode('title').value },
-        value: () => { current.value = getNode('value').value },
-        height: () => { current.style.height = getNode('height').value + 'px' },
-        width: () => { current.style.width = getNode('width').value + 'px' },
-        x: () => { current.style.left = getNode('x').value + 'px' },
-        y: () => { current.style.top = getNode('y').value + 'px' },
-        fsize: () => { current.style.fontSize = getNode('fsize').value + 'px' },
-        color: () => { current.style.color = getNode('color').value },
-        bg: () => { current.style.background = getNode('bg').value },
-        bds: () => { current.style.borderStyle = getNode('bds').value },
-        bdw: () => { current.style.borderWidth = getNode('bdw').value + 'px' },
-        bdc: () => { current.style.borderColor = getNode('bdc').value },
-        bdr: () => { current.style.borderRadius = getNode('bdr').value + 'px' },
-        ols: () => { current.style.outlineStyle = getNode('ols').value },
-        olw: () => { current.style.outlineWidth = getNode('olw').value + 'px' },
-        olc: () => { current.style.outlineColor = getNode('olc').value },
-        fts: () => { current.style.fontWeight = getNode('fts').value },
-        hint: () => { current.placeholder = getNode('hint').value },
-        inputtype: () => { current.type = getNode('inputtype').value },
-        path: () => { current.src = getNode('path').value },
-        padding: () => { current.style.padding = getNode('padding').value + 'px' },
-        margin: () => { current.style.margin = getNode('margin').value + 'px' },
-        zindex: () => {
-            if (getNode('zindex').value > 1000) {
-                current.style.zIndex = 1000
-                getNode('zindex').value = 1000
-            } else {
-                current.style.zIndex = getNode('zindex').value
-            }
-        },
-        ftcm: () => { current.style.textAlign = getNode('ftcm').value },
-        hs: () => { current.style.display = 'flex'; current.style.justifyContent = getNode('hs').value },
-        vs: () => { current.style.display = 'flex'; current.style.alignItems = getNode('vs').value },
-        arrange: () => { current.style.display = 'flex'; current.style.flexDirection = getNode('arrange').value }
+    getNode('zindex').onchange = (e) => {
+        if (e.target.value > 1000) {
+            current.style.zIndex = 1000
+            e.target.value = 1000
+        } else {
+            current.style.zIndex = e.target.value
+        }
     }
-    config_data[id]()
+    getNode('height').value = target.style.height ? parseInt(target.style.height) : target.style.height
+    getNode('height').onchange = (e) => {current.style.height = e.target.value + 'px'}
+    getNode('width').value = target.style.width ? parseInt(target.style.width) : target.style.width
+    getNode('width').onchange = (e) => {current.style.width = e.target.value + 'px'}
+    getNode('padding').value = target.style.padding ? parseInt(target.style.padding) : target.style.padding
+    getNode('padding').onchange = (e) => {current.style.padding = e.target.value + 'px'}
+    getNode('margin').value = target.style.margin ? parseInt(target.style.margin) : target.style.margin
+    getNode('margin').onchange = (e) => {current.style.margin = e.target.value + 'px'}
+    getNode('x').value = target.style.left ? parseInt(target.style.left) : target.style.left
+    getNode('x').onchange = (e) => {current.style.left = e.target.value + 'px'}
+    getNode('y').value = target.style.top ? parseInt(target.style.top) : target.style.top
+    getNode('y').onchange = (e) => {current.style.top = e.target.value + 'px'}
+    getNode('fsize').value = target.style.fontSize ? parseInt(target.style.fontSize) : target.style.fontSize
+    getNode('fsize').onchange = (e) => {current.style.fontSize = e.target.value + 'px'}
+    getNode('color').value = target.style.color ? rgbStringToHex(target.style.color) : '#000000'
+    getNode('color').onchange = (e) => {current.style.color = e.target.value}
+    getNode('bg').value = target.style.background ? rgbStringToHex(target.style.background) : '#000000'
+    getNode('bg').onchange = (e) => {current.style.background = e.target.value}
+    getNode('bdw').value = target.style.borderWidth ? parseInt(target.style.borderWidth) : target.style.borderWidth
+    getNode('bdw').onchange = (e) => {current.style.borderWidth = e.target.value + 'px'}
+    getNode('bdc').value = target.style.borderColor ? rgbStringToHex(target.style.borderColor) : '#000000'
+    getNode('bdc').onchange = (e) => {current.style.borderColor = e.target.value}
+    getNode('bdr').value = target.style.borderRadius ? parseInt(target.style.borderRadius) : target.style.borderRadius
+    getNode('bdr').onchange = (e) => {current.style.borderRadius = e.target.value + 'px'}
+    getNode('olw').value = target.style.outlineWidth ? parseInt(target.style.outlineWidth) : target.style.outlineWidth
+    getNode('olw').onchange = (e) => {current.style.outlineWidth = e.target.value + 'px'}
+    getNode('olc').value = target.style.outlineColor ? rgbStringToHex(target.style.outlineColor) : '#000000'
+    getNode('olc').onchange = (e) => {current.style.outlineColor = e.target.value}
+    getNode('hs').value = target.style.justifyContent
+    getNode('hs').onchange = (e) => {
+        current.style.display = 'flex'; 
+        current.style.justifyContent = e.target.value
+    }
+    getNode('vs').value = target.style.alignItems
+    getNode('vs').onchange = (e) => {
+        current.style.display = 'flex'; 
+        current.style.alignItems = e.target.value
+    }
+    getNode('arrange').value = target.style.flexDirection
+    getNode('arrange').onchange = (e) => {
+        current.style.display = 'flex'; 
+        current.style.flexDirection = e.target.value
+    }
 }
 
 function dragWin(flag_1, flag_2) { // 组件、配置窗口拖拽
@@ -162,7 +170,7 @@ function dragWin(flag_1, flag_2) { // 组件、配置窗口拖拽
     let initialX = 0;
     let initialY = 0;
     let config = getNode(flag_1)
-    if(flag_1 == 'config') {
+    if (flag_1 == 'config') {
         config.style.left = window.innerWidth - 250 + 'px'
     }
     getNode(flag_2).onmousedown = function (e) {
@@ -195,6 +203,7 @@ function createNode(node) { // 节点创建
         new_node.innerHTML = `${node.dataset.name}`;
         new_node.id = new_node.nodeName + '_' + new Date().getTime()
         new_node.style.position = "absolute";
+        new_node.style.zIndex = 1;
         new_node.style.userSelect = "none";
         new_node.style.left = event.clientX + "px";
         new_node.style.top = event.clientY + "px";
@@ -220,13 +229,14 @@ function createNode(node) { // 节点创建
             new_node.style.height = '15px'
         }
         getNode('workplace').appendChild(new_node);
-        document.onmousemove = function (event) {
-            new_node.style.left = event.clientX + "px";
-            new_node.style.top = event.clientY + "px";
+        document.onmousemove = function (event_1) {
+            new_node.style.left = event_1.clientX + "px";
+            new_node.style.top = event_1.clientY + "px";
         }
         document.onmouseup = function (ev) {
             handleNode(new_node, 'create')
             const elements = document.elementsFromPoint(ev.clientX, ev.clientY)
+            if(elements[2].nodeName == 'HTML') return
             if (elements[1].nodeName == 'DIV' && elements[1].id != 'workplace' && elements[1].id != 'component' && !elements.map(item => item.id).includes('config') && !new_node.contains(elements[1])) {
                 getNode('workplace').removeChild(new_node)
                 new_node.style.position = ''
@@ -240,23 +250,27 @@ function createNode(node) { // 节点创建
 }
 
 function handleCopy() { // 节点复制
-    if (current == {}) return
+    if (!current.nodeName) return
     let cloneNode = current.cloneNode(true)
+    current.classList.remove('active')
     cloneNode.id = cloneNode.nodeName + '_' + new Date().getTime()
-    for(let index in cloneNode.children) { // 更新子节点id
-        if(cloneNode.children[index].id) {
+    for (let index in cloneNode.children) { // 更新子节点id
+        if (cloneNode.children[index].id) {
             setTimeout(() => {
                 cloneNode.children[index].id = cloneNode.children[index].nodeName + '_' + new Date().getTime()
-            },10)
+            }, 10)
         }
     }
-    if(cloneNode.nodeName != 'DIV') { // 非块需绝对布局
+    if (cloneNode.nodeName != 'DIV') { // 非块需绝对布局
         cloneNode.style.position = 'absolute'
-        cloneNode.style.top = '24px'
+        if(cloneNode.style.top=='0px') {
+            cloneNode.style.top = '50px'
+            cloneNode.style.left = '100px'
+        }
     }
     getNode('workplace').appendChild(cloneNode)
     handleNode(cloneNode, 'copy')
-    current == {}
+    current = {}
 }
 
 function handleNode(node, nodeFlag) { // 节点处理
@@ -278,24 +292,34 @@ function handleNode(node, nodeFlag) { // 节点处理
             xOffset = currentX;
             yOffset = currentY;
             node.style.transform = "translate3d(" + currentX + "px, " + currentY + "px, 0)"
-            if(flag == 'down') {
+            if (flag == 'down') {
                 node.style.top = Math.abs((currentY - parseInt(node.style.top))) + 'px'
                 node.style.left = Math.abs((currentX - parseInt(node.style.left))) + 'px'
                 flag = 'move'
             }
         }
         document.onmouseup = function (evx) {
-            if(nodeFlag == 'create') {
-                const elements = document.elementsFromPoint(evx.clientX, evx.clientY)
-                if (elements[1].nodeName == 'DIV' && elements[1].id != 'workplace' && elements[1].id != 'component' && !elements.map(item => item.id).includes('config') && !node.contains(elements[1])) {
-                    getNode('workplace').removeChild(node)
-                    node.style.position = ''
-                    node.style.top = 0
-                    node.style.left = 0
-                    elements[1].appendChild(node)
-                }
+            // if (nodeFlag == 'create') {
+            //     const elements = document.elementsFromPoint(evx.clientX, evx.clientY)
+            //     if(elements[2].nodeName == 'HTML') return
+            //     if (elements[1].nodeName == 'DIV' && elements[1].id != 'workplace' && elements[1].id != 'component' && !elements.map(item => item.id).includes('config') && !node.contains(elements[1])) {
+            //         getNode('workplace').removeChild(node)
+            //         node.style.position = ''
+            //         node.style.top = 0
+            //         node.style.left = 0
+            //         elements[1].appendChild(node)
+            //     }
+            // }
+            const elements = document.elementsFromPoint(evx.clientX, evx.clientY)
+            if(elements[2].nodeName == 'HTML') return
+            if (elements[1].nodeName == 'DIV' && elements[1].id != 'workplace' && elements[1].id != 'component' && !elements.map(item => item.id).includes('config') && !node.contains(elements[1])) {
+                getNode('workplace').removeChild(node)
+                node.style.position = ''
+                node.style.top = 0
+                node.style.left = 0
+                elements[1].appendChild(node)
             }
-            if(flag == 'move') {
+            if (flag == 'move') {
                 initialX = currentX;
                 initialY = currentY;
                 node.style.transform = ""
@@ -384,13 +408,16 @@ function handleExport(type) {
             <script>export default {}</script>
             <style scoped>${styleStr}</style>
         `
+    } else if (type == 'temp') {
+        let node = document.getElementById('workplace').cloneNode(true)
+        temp = `${node.outerHTML}`
     }
     const blob = new Blob([temp], { type: 'text/html;charset=utf-8' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    if(type == 'vue') {
-        link.download = 'index.vue'; 
-    }else {
+    if (type == 'vue') {
+        link.download = 'index.vue';
+    } else {
         link.download = 'index.html';
     }
     document.body.appendChild(link);
@@ -404,13 +431,70 @@ function handleClear() {
 }
 
 function handleRemove() {
-    if (current == {}) return
+    if (!current.nodeName) return
     current.remove()
-    current == {}
+    current = {}
+}
+
+function importFile() {
+    let import_file = getNode('import_file')
+    import_file.onchange = (event) => {
+        const file = event.target.files[0];
+        if (!file || !file.name.includes('html')) {
+            console.error('请选择html导入')
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const content = e.target.result;
+            if(content.includes('html')) {
+                const node = document.createElement('div')
+                node.innerHTML = content
+                node.querySelectorAll('meta').forEach(item => {
+                    node.removeChild(item)
+                })
+                node.querySelectorAll('title').forEach(item => {
+                    node.removeChild(item)
+                })
+                getNode('workplace').innerHTML = node.innerHTML
+                for(let index in getNode('workplace').children) {
+                    handleNode(getNode('workplace').children[index], 'export')
+                }
+            }else {
+                getNode('workplace').outerHTML = content
+                for(let index in getNode('workplace').children) {
+                    handleNode(getNode('workplace').children[index], 'export')
+                }
+            }
+            closeDialog()
+        };
+        reader.onerror = function (e) {
+            console.error('文件读取错误', e);
+        };
+        reader.readAsText(file)
+    }
+    import_file.click()
+}
+
+function closeDialog() {
+    getNode('dialog').style.display = 'none'
+}
+
+function choseTemplate() {
+    getNode('dialog').style.display = 'unset'
 }
 
 function init() {
-    getNode('workplace').style.height = window.innerHeight - 25 + 'px'
+    getNode('w_height').value = window.innerHeight - 50
+    getNode('w_height').onchange = (e) => {
+        getNode('workplace').style.height = e.target.value + 'px'
+    }
+    getNode('w_width').value = window.innerWidth
+    getNode('w_width').onchange = (e) => {
+        getNode('workplace').style.width = e.target.value + 'px'
+    }
+    getNode('workplace').style.height = window.innerHeight - 50 + 'px'
+    getNode('workplace').style.width = window.innerWidth + 'px'
     createNode(getNode('c_btn'))
     createNode(getNode('c_text'))
     createNode(getNode('c_input'))

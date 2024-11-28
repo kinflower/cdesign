@@ -1,9 +1,32 @@
+.tool_button {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    z-index: 1000;
+}
+.tool_button>button {
+    border: none;
+    margin: 4px;
+    background: #7a6b94;
+    color: #ffffff;
+    cursor: pointer;
+    transition-duration: 200ms;
+}
+
+.tool_button>button:hover {
+    box-shadow: 0 0 3px slateblue;
+    transition-duration: 200ms;
+}
+
 .container {
     display: flex;
 }
 .config {
     display: none;
-    position: absolute;
+    position: fixed;
     z-index: 1010;
     width: 225px;
     height: 500px;
@@ -13,6 +36,7 @@
     overflow-x: hidden;
     border: 1px solid #d4d4d4;
     background-color: #ffffff;
+    color: #37205f;
 }
 .config_win {
     user-select: none;
@@ -20,42 +44,45 @@
     position: sticky;
     top: 0;
     left: 0;
+    right: -5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #ebebeb;
+    width: 100%;
     margin: 0 -10px;
     padding: 0 10px;
+    font-weight: bolder;
 }
 #component_title {
     user-select: none;
     text-align: left;
     cursor: move;
+    font-weight: bolder;
 }
 .min {
     cursor: pointer;
 }
 #component {
     display: none;
-    position: absolute;
+    position: fixed;
     border: 1px solid #d4d4d4;
     z-index: 1010;
     width: 120px;
     background-color: #ffffff;
+    color: #37205f;
     left: 0;
     top: 50px;
 }
 .config::-webkit-scrollbar {
-    width: 5px;
+    width: 2px;
 }
 .config::-webkit-scrollbar-thumb {
     background-color: #7a6b94;
     border-radius: 10px;
-  }
-.workplace {
-    width: 100%;
 }
 .workplace_content {
+    margin-top: 28px;
     border: 1px solid #d4d4d4;
 }
 #c_btn,
@@ -64,6 +91,7 @@
 #c_img,
 #c_div {
     user-select: none;
+    margin: 5px;
 }
 #c_btn:hover,
 #c_text:hover,
@@ -121,4 +149,31 @@
     user-select: none;
     background-color: #ebebeb;
     padding: 0 5px;
+}
+
+.active {
+    box-shadow: 0 0 3px rgb(82, 65, 179);
+}
+
+#dialog {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    background: #ffffff;
+    border: 1px solid  #bebebe;
+    width: 500px;
+    height: 350px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.dialog_title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    background: #bebebe;
 }
