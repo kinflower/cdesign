@@ -1,4 +1,6 @@
 var current = {}
+var records = Array(2000)
+var curIndex = 0
 
 function getNode(name) { // 获取节点
     return document.getElementById(name)
@@ -19,6 +21,16 @@ function rgbToHex(r, g, b) {
 function rgbStringToHex(rgbString) {
     const [, red, green, blue] = rgbString.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
     return rgbToHex(parseInt(red), parseInt(green), parseInt(blue));
+}
+
+function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters[randomIndex];
+    }
+    return result;
 }
 
 function getval(target) { // 获取组件配置信息
@@ -64,9 +76,15 @@ function getval(target) { // 获取组件配置信息
                 }
             })
             getNode('hint').value = target.placeholder
-            getNode('hint').onchange = (e) => {current.placeholder = e.target.value}
+            getNode('hint').onchange = (e) => {
+                current.placeholder = e.target.value
+                handleRecords()
+            }
             getNode('inputtype').value = target.placeholder
-            getNode('inputtype').onchange = (e) => {current.type = e.target.value}
+            getNode('inputtype').onchange = (e) => {
+                current.type = e.target.value
+                handleRecords()
+            }
             break
         case 'img':
             init_config.com.forEach(item => {
@@ -78,7 +96,10 @@ function getval(target) { // 获取组件配置信息
                 }
             })
             getNode('path').value = target.src
-            getNode('path').onchange = (e) => {current.src = e.target.value}
+            getNode('path').onchange = (e) => {
+                current.src = e.target.value
+                handleRecords()
+            }
             break
         case 'div':
             init_config.com.forEach(item => {
@@ -97,17 +118,35 @@ function getval(target) { // 获取组件配置信息
 
     // 配置项值写入
     getNode('title').value = target.innerHTML
-    getNode('title').onchange = (e) => {current.innerHTML = e.target.value}
+    getNode('title').onchange = (e) => {
+        current.innerHTML = e.target.value
+        handleRecords()
+    }
     getNode('value').value = target.value
-    getNode('value').onchange = (e) => {current.value = e.target.value}
+    getNode('value').onchange = (e) => {
+        current.value = e.target.value
+        handleRecords()
+    }
     getNode('bds').value = target.style.borderStyle
-    getNode('bds').onchange = (e) => {current.style.borderStyle = e.target.value}
+    getNode('bds').onchange = (e) => {
+        current.style.borderStyle = e.target.value
+        handleRecords()
+    }
     getNode('ols').value = target.style.outlineStyle
-    getNode('ols').onchange = (e) => {current.style.outlineStyle = e.target.value}
+    getNode('ols').onchange = (e) => {
+        current.style.outlineStyle = e.target.value
+        handleRecords()
+    }
     getNode('fts').value = target.style.fontWeight
-    getNode('fts').onchange = (e) => {current.style.fontWeight = e.target.value}
+    getNode('fts').onchange = (e) => {
+        current.style.fontWeight = e.target.value
+        handleRecords()
+    }
     getNode('ftcm').value = target.style.textAlign
-    getNode('ftcm').onchange = (e) => {current.style.textAlign = e.target.value}
+    getNode('ftcm').onchange = (e) => {
+        current.style.textAlign = e.target.value
+        handleRecords()
+    }
     getNode('zindex').value = target.style.zIndex
     getNode('zindex').onchange = (e) => {
         if (e.target.value > 1000) {
@@ -116,49 +155,95 @@ function getval(target) { // 获取组件配置信息
         } else {
             current.style.zIndex = e.target.value
         }
+        handleRecords()
     }
     getNode('height').value = target.style.height ? parseInt(target.style.height) : target.style.height
-    getNode('height').onchange = (e) => {current.style.height = e.target.value + 'px'}
+    getNode('height').onchange = (e) => {
+        current.style.height = e.target.value + 'px'
+        handleRecords()
+    }
     getNode('width').value = target.style.width ? parseInt(target.style.width) : target.style.width
-    getNode('width').onchange = (e) => {current.style.width = e.target.value + 'px'}
+    getNode('width').onchange = (e) => {
+        current.style.width = e.target.value + 'px'
+        handleRecords()
+    }
     getNode('padding').value = target.style.padding ? parseInt(target.style.padding) : target.style.padding
-    getNode('padding').onchange = (e) => {current.style.padding = e.target.value + 'px'}
+    getNode('padding').onchange = (e) => {
+        current.style.padding = e.target.value + 'px'
+        handleRecords()
+    }
     getNode('margin').value = target.style.margin ? parseInt(target.style.margin) : target.style.margin
-    getNode('margin').onchange = (e) => {current.style.margin = e.target.value + 'px'}
+    getNode('margin').onchange = (e) => {
+        current.style.margin = e.target.value + 'px'
+        handleRecords()
+    }
     getNode('x').value = target.style.left ? parseInt(target.style.left) : target.style.left
-    getNode('x').onchange = (e) => {current.style.left = e.target.value + 'px'}
+    getNode('x').onchange = (e) => {
+        current.style.left = e.target.value + 'px'
+        handleRecords()
+    }
     getNode('y').value = target.style.top ? parseInt(target.style.top) : target.style.top
-    getNode('y').onchange = (e) => {current.style.top = e.target.value + 'px'}
+    getNode('y').onchange = (e) => {
+        current.style.top = e.target.value + 'px'
+        handleRecords()
+    }
     getNode('fsize').value = target.style.fontSize ? parseInt(target.style.fontSize) : target.style.fontSize
-    getNode('fsize').onchange = (e) => {current.style.fontSize = e.target.value + 'px'}
+    getNode('fsize').onchange = (e) => {
+        current.style.fontSize = e.target.value + 'px'
+        handleRecords()
+    }
     getNode('color').value = target.style.color ? rgbStringToHex(target.style.color) : '#000000'
-    getNode('color').onchange = (e) => {current.style.color = e.target.value}
+    getNode('color').onchange = (e) => {
+        current.style.color = e.target.value
+        handleRecords()
+    }
     getNode('bg').value = target.style.background ? rgbStringToHex(target.style.background) : '#000000'
-    getNode('bg').onchange = (e) => {current.style.background = e.target.value}
+    getNode('bg').onchange = (e) => {
+        current.style.background = e.target.value
+        handleRecords()
+    }
     getNode('bdw').value = target.style.borderWidth ? parseInt(target.style.borderWidth) : target.style.borderWidth
-    getNode('bdw').onchange = (e) => {current.style.borderWidth = e.target.value + 'px'}
+    getNode('bdw').onchange = (e) => {
+        current.style.borderWidth = e.target.value + 'px'
+        handleRecords()
+    }
     getNode('bdc').value = target.style.borderColor ? rgbStringToHex(target.style.borderColor) : '#000000'
-    getNode('bdc').onchange = (e) => {current.style.borderColor = e.target.value}
+    getNode('bdc').onchange = (e) => {
+        current.style.borderColor = e.target.value
+        handleRecords()
+    }
     getNode('bdr').value = target.style.borderRadius ? parseInt(target.style.borderRadius) : target.style.borderRadius
-    getNode('bdr').onchange = (e) => {current.style.borderRadius = e.target.value + 'px'}
+    getNode('bdr').onchange = (e) => {
+        current.style.borderRadius = e.target.value + 'px'
+        handleRecords()
+    }
     getNode('olw').value = target.style.outlineWidth ? parseInt(target.style.outlineWidth) : target.style.outlineWidth
-    getNode('olw').onchange = (e) => {current.style.outlineWidth = e.target.value + 'px'}
+    getNode('olw').onchange = (e) => {
+        current.style.outlineWidth = e.target.value + 'px'
+        handleRecords()
+    }
     getNode('olc').value = target.style.outlineColor ? rgbStringToHex(target.style.outlineColor) : '#000000'
-    getNode('olc').onchange = (e) => {current.style.outlineColor = e.target.value}
+    getNode('olc').onchange = (e) => {
+        current.style.outlineColor = e.target.value
+        handleRecords()
+    }
     getNode('hs').value = target.style.justifyContent
     getNode('hs').onchange = (e) => {
         current.style.display = 'flex'; 
         current.style.justifyContent = e.target.value
+        handleRecords()
     }
     getNode('vs').value = target.style.alignItems
     getNode('vs').onchange = (e) => {
         current.style.display = 'flex'; 
         current.style.alignItems = e.target.value
+        handleRecords()
     }
     getNode('arrange').value = target.style.flexDirection
     getNode('arrange').onchange = (e) => {
         current.style.display = 'flex'; 
         current.style.flexDirection = e.target.value
+        handleRecords()
     }
 }
 
@@ -201,7 +286,7 @@ function createNode(node) { // 节点创建
         event.preventDefault();
         let new_node = document.createElement(`${node.dataset.type}`);
         new_node.innerHTML = `${node.dataset.name}`;
-        new_node.id = new_node.nodeName + '_' + new Date().getTime()
+        new_node.id = new_node.nodeName + '_' + generateRandomString(10)
         new_node.style.position = "absolute";
         new_node.style.zIndex = 1;
         new_node.style.userSelect = "none";
@@ -244,6 +329,7 @@ function createNode(node) { // 节点创建
                 new_node.style.left = 0
                 elements[1].appendChild(new_node)
             }
+            handleRecords()
             removeEvent()
         }
     }
@@ -253,24 +339,24 @@ function handleCopy() { // 节点复制
     if (!current.nodeName) return
     let cloneNode = current.cloneNode(true)
     current.classList.remove('active')
-    cloneNode.id = cloneNode.nodeName + '_' + new Date().getTime()
-    for (let index in cloneNode.children) { // 更新子节点id
-        if (cloneNode.children[index].id) {
-            setTimeout(() => {
-                cloneNode.children[index].id = cloneNode.children[index].nodeName + '_' + new Date().getTime()
-            }, 10)
-        }
-    }
-    if (cloneNode.nodeName != 'DIV') { // 非块需绝对布局
+    cloneNode.id = cloneNode.nodeName + '_' + generateRandomString(10)
+    handleNode(cloneNode, 'copy')
+    handleTreeNodeId(cloneNode)
+    if (cloneNode.nodeName != 'DIV') { // 非块级需绝对布局
         cloneNode.style.position = 'absolute'
         if(cloneNode.style.top=='0px') {
             cloneNode.style.top = '50px'
             cloneNode.style.left = '100px'
         }
     }
+    if (cloneNode.nodeName == 'DIV' && cloneNode.children.length>0) { // 块级且有子节点需绝对布局
+        cloneNode.style.position = 'absolute'
+        cloneNode.style.top = '50px'
+        cloneNode.style.left = '100px'
+    }
     getNode('workplace').appendChild(cloneNode)
-    handleNode(cloneNode, 'copy')
     current = {}
+    handleRecords()
 }
 
 function handleNode(node, nodeFlag) { // 节点处理
@@ -299,17 +385,6 @@ function handleNode(node, nodeFlag) { // 节点处理
             }
         }
         document.onmouseup = function (evx) {
-            // if (nodeFlag == 'create') {
-            //     const elements = document.elementsFromPoint(evx.clientX, evx.clientY)
-            //     if(elements[2].nodeName == 'HTML') return
-            //     if (elements[1].nodeName == 'DIV' && elements[1].id != 'workplace' && elements[1].id != 'component' && !elements.map(item => item.id).includes('config') && !node.contains(elements[1])) {
-            //         getNode('workplace').removeChild(node)
-            //         node.style.position = ''
-            //         node.style.top = 0
-            //         node.style.left = 0
-            //         elements[1].appendChild(node)
-            //     }
-            // }
             const elements = document.elementsFromPoint(evx.clientX, evx.clientY)
             if(elements[2].nodeName == 'HTML') return
             if (elements[1].nodeName == 'DIV' && elements[1].id != 'workplace' && elements[1].id != 'component' && !elements.map(item => item.id).includes('config') && !node.contains(elements[1])) {
@@ -326,6 +401,7 @@ function handleNode(node, nodeFlag) { // 节点处理
                 node.style.top = (parseInt(node.style.top) + currentY) + 'px'
                 node.style.left = (parseInt(node.style.left) + currentX) + 'px'
             }
+            handleRecords()
             removeEvent()
         }
     }
@@ -428,15 +504,17 @@ function handleExport(type) {
 function handleClear() {
     let node = document.getElementById('workplace')
     node.innerHTML = ''
+    handleRecords()
 }
 
 function handleRemove() {
     if (!current.nodeName) return
     current.remove()
     current = {}
+    handleRecords()
 }
 
-function importFile() {
+function importFile() { // 导入文件
     let import_file = getNode('import_file')
     import_file.onchange = (event) => {
         const file = event.target.files[0];
@@ -457,14 +535,18 @@ function importFile() {
                     node.removeChild(item)
                 })
                 getNode('workplace').innerHTML = node.innerHTML
-                for(let index in getNode('workplace').children) {
-                    handleNode(getNode('workplace').children[index], 'export')
+                handleTreeNodeId(getNode('workplace'))
+                for(let index in node.children) {
+                    handleNode(getNode('workplace').children[index], 'import')
                 }
+                handleRecords()
             }else {
                 getNode('workplace').outerHTML = content
-                for(let index in getNode('workplace').children) {
-                    handleNode(getNode('workplace').children[index], 'export')
+                handleTreeNodeId(getNode('workplace'))
+                for(let index in node.children) {
+                    handleNode(getNode('workplace').children[index], 'import')
                 }
+                handleRecords()
             }
             closeDialog()
         };
@@ -476,22 +558,53 @@ function importFile() {
     import_file.click()
 }
 
+function handleTreeNodeId(node) { // 更新子节点id
+    for(let index in node.children) {
+        if(node.children[index].children > 0) {
+            node.children[index].id = node.children[index].nodeName + '_' + generateRandomString(10)
+            handleTreeNodeId(node.children[index])
+        }else {
+            node.children[index].id = node.children[index].nodeName + '_' + generateRandomString(10)
+        }
+    }
+}
+
 function closeDialog() {
     getNode('dialog').style.display = 'none'
 }
 
 function choseTemplate() {
+    console.log(data)
+    let str = ''
+    data.forEach((item, index) => {
+        str += `<div class="item">
+                    <img style="width:auto;height:150px;" src="${item.img}">
+                    <div class="title" onclick="handleTemp(${index})">${item.name}</div>
+                </div>`
+    })
+    getNode('temp_list').innerHTML = `<div class="list">${str}</div>`
     getNode('dialog').style.display = 'unset'
+}
+
+function handleTemp(index) {
+    getNode('workplace').outerHTML = data[index].val
+    for(let index in getNode('workplace').children) {
+        handleNode(getNode('workplace').children[index], 'import')
+    }
+    closeDialog()
+    handleRecords()
 }
 
 function init() {
     getNode('w_height').value = window.innerHeight - 50
     getNode('w_height').onchange = (e) => {
         getNode('workplace').style.height = e.target.value + 'px'
+        handleRecords()
     }
     getNode('w_width').value = window.innerWidth
     getNode('w_width').onchange = (e) => {
         getNode('workplace').style.width = e.target.value + 'px'
+        handleRecords()
     }
     getNode('workplace').style.height = window.innerHeight - 50 + 'px'
     getNode('workplace').style.width = window.innerWidth + 'px'
@@ -502,6 +615,36 @@ function init() {
     createNode(getNode('c_div'))
     dragWin('config', 'config_win')
     dragWin('component', 'component_title')
+    records[curIndex] = getNode('workplace').outerHTML
+}
+
+function handleRecords() {
+    curIndex += 1
+    records[curIndex] = getNode('workplace').outerHTML
+}
+
+function handleCancel() {
+    if(curIndex == 0) {
+        console.log('暂无记录')
+        return
+    }
+    curIndex -= 1
+    getNode('workplace').outerHTML = records[curIndex]
+    for(let index in getNode('workplace').children) {
+        handleNode(getNode('workplace').children[index])
+    }
+}
+
+function handleRedo() {
+    if(!records[curIndex+1] || curIndex >= records.length-1) {
+        console.log('暂无记录')
+        return
+    }
+    curIndex += 1
+    getNode('workplace').outerHTML = records[curIndex]
+    for(let index in getNode('workplace').children) {
+        handleNode(getNode('workplace').children[index])
+    }
 }
 
 init()

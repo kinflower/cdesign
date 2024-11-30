@@ -23,17 +23,23 @@
             <div class="tool_button">
                 <button onclick="setMin('component','unset')">组件框</button>
                 <button onclick="setMin('config','unset')">属性框</button>
+                <span>|</span>
                 <button onclick="handleClear()">清空画布</button>
                 <button onclick="handleCopy()">复制当前组件</button>
                 <button onclick="handleRemove()">删除当前组件</button>
+                <button onclick="handleExport('com')">导出当前组件</button>
+                <button onclick="handleCancel()">撤销</button>
+                <button onclick="handleRedo()">重做</button>
+                <span>|</span>
                 <button onclick="handleExport('html')">导出HTML</button>
                 <button onclick="handleExport('vue')">导出VUE</button>
-                <button onclick="handleExport('com')">导出选择的组件</button>
                 <button onclick="handleExport('temp')">导出模板</button>
                 <button onclick="choseTemplate()">选择模板</button>
+                <span>|</span>
                 <span>画布大小：</span>
-                <input type="text" style="width: 100px;" id="w_height">
-                <input type="text" style="width: 100px;" id="w_width">
+                <input type="number" style="width: 50px;" id="w_height">
+                <span>×</span>
+                <input type="number" style="width: 50px;" id="w_width">
             </div>
             <div class="workplace_content" id="workplace"></div>
         </div>
@@ -211,9 +217,7 @@
             <button onclick="importFile()">导入模板</button>
             <div class="min" style="margin-top: -5px;" onclick="closeDialog()">×</div>
         </div>
-        <div>
-
-        </div>
+        <div id="temp_list"></div>
     </div>
     <script src="data.js"></script>
     <script src="index.js"></script>
